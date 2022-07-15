@@ -25,7 +25,7 @@ const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(callba
 // });
 
 // listening at the callback URL for the state and code generation
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
 	console.log("FUCKKKKKKKKKKKKKKKKKKK");
 	res.redirect(url);
 });
@@ -34,7 +34,7 @@ app.get("/ouath/redirect", async (req, res) => {
 	console.log("It worked");
 	const { state, code } = req.query;
 
-	console.log(req.query);
+	console.log(code);
 
 	const {
 		client: loggedClient,
@@ -46,11 +46,40 @@ app.get("/ouath/redirect", async (req, res) => {
 		redirectUri: callback,
 	});
 
-	tempStorage.set({ accessToken: accessToken, refreshToken: refreshToken });
+	tempStorage.set("accessToken", accessToken).set("refreshToken", refreshToken);
 
-	const { data } = await loggedClient.v2.me();
+	// const { data } = await loggedClient.v2.me();
+	// const { data } = await loggedClient.v2.tweet("Hello World from Liam's server");
+
+	// res.send(data);
+	timedReq();
+});
+
+// Put an axios call in a function and have it make a get request to /refresh everyday;
+
+app.get("/refresh", async (req, res) => {
+	console.log("Axios req was made");
+	const refreshToken = tempStorage.get("refreshToken");
+
+	const {
+		client: refreshedClient,
+		accessToken,
+		refreshToken: newRefreshToken,
+	} = await twitterClient.refreshOAuth2Token(refreshToken);
+
+	// store the new access token and refreshToken
+	tempStorage.set("accessToken", accessToken).set("refreshToken", newRefreshToken);
+
+	const { data } = await refreshedClient.v2.tweet("This is a refreshed tweet from the server");
 
 	res.send(data);
 });
 
+async function timedReq() {
+	try {
+		const response = await axios.get("http://127.0.0.1:3000/refresh");
+	} catch (err) {
+		console.log(err);
+	}
+}
 module.exports = app;
