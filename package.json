@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"watch": "nodemon server/controller/tweets.controller.js",
+		"watch": "nodemon server/server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
