@@ -35,6 +35,13 @@ function generateRandomPromt() {
 		"Was laMDA sentient?",
 		"Google looks like a great place to work.",
 		"My name Jeff.",
+		"Tech company hot take.",
+		"Pet peeves about developers.",
+		"Developer hot take.",
+		"I am addicted to youtube.",
+		"Hello world!",
+		"Tell me when the first computer was made.",
+		"I love being controversial.",
 	];
 
 	const randomIndex = Math.floor(Math.random() * statements.length);
