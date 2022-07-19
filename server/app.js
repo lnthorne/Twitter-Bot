@@ -1,16 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const { TwitterApi } = require("twitter-api-v2");
-const { readNextPartOf } = require("twitter-api-v2/dist/v1/media-helpers.v1");
+const { openAiCreateTweet } = require("./generate");
 
 const app = express();
 
 app.use(cors({ origin: true }));
 
 const twitterClient = new TwitterApi({
-	clientId: "N3BFdjNIUUlMWXNBZkpGZURwQ2s6MTpjaQ",
-	clientSecret: "htsmzMV2w4Zt_-P7K8bl7xy2tVFk7SdMGIa0obG50WrLGWoNUh",
+	clientId: process.env.clientId,
+	clientSecret: process.env.clientSecret,
 });
 
 const tempStorage = new Map();
@@ -20,21 +21,13 @@ const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(callba
 	scope: ["tweet.read", "tweet.write", "users.read", "offline.access"],
 });
 
-// axios.get(callback).catch((err) => {
-// 	console.log(err);
-// });
-
 // listening at the callback URL for the state and code generation
 app.get("/", (req, res) => {
-	console.log("FUCKKKKKKKKKKKKKKKKKKK");
 	res.redirect(url);
 });
 
 app.get("/ouath/redirect", async (req, res) => {
-	console.log("It worked");
 	const { state, code } = req.query;
-
-	console.log(code);
 
 	const {
 		client: loggedClient,
@@ -48,17 +41,11 @@ app.get("/ouath/redirect", async (req, res) => {
 
 	tempStorage.set("accessToken", accessToken).set("refreshToken", refreshToken);
 
-	// const { data } = await loggedClient.v2.me();
-	// const { data } = await loggedClient.v2.tweet("Hello World from Liam's server");
-
-	// res.send(data);
 	timedReq();
 });
 
 // Put an axios call in a function and have it make a get request to /refresh everyday;
-
 app.get("/refresh", async (req, res) => {
-	console.log("Axios req was made");
 	const refreshToken = tempStorage.get("refreshToken");
 
 	const {
@@ -70,7 +57,7 @@ app.get("/refresh", async (req, res) => {
 	// store the new access token and refreshToken
 	tempStorage.set("accessToken", accessToken).set("refreshToken", newRefreshToken);
 
-	const { data } = await refreshedClient.v2.tweet("This is a refreshed tweet from the server");
+	const { data } = await refreshedClient.v2.tweet(await openAiCreateTweet());
 
 	res.send(data);
 });
