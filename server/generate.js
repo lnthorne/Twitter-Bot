@@ -26,27 +26,76 @@ async function openAiCreateTweet() {
 }
 
 function generateRandomPromt() {
-	const statements = [
-		"I love programming!",
-		"I hate python!",
-		"What is the best programming language?",
-		"What is the best computer science school?",
-		"I think HTML is not a programming language.",
-		"Was laMDA sentient?",
-		"Google looks like a great place to work.",
-		"My name Jeff.",
-		"Tech company hot take.",
-		"Pet peeves about developers.",
-		"Developer hot take.",
-		"I am addicted to youtube.",
-		"Hello world!",
-		"Tell me when the first computer was made.",
-		"I love being controversial.",
+	const topics = [
+		"C++",
+		"Linux",
+		"iOS",
+		"JavaScript",
+		"TypeScript",
+		"Silicon Valley",
+		"Steve Jobs",
+		".NET",
+		"Unity",
+		"Virtual Reality",
+		"Google",
+		"Node.js",
+		"React",
+		"#ReactJS",
+		"CSS",
+		"Bitcoin",
+		"Dark Web",
+		"Xbox",
+		"Bill Gates",
+		"Facebook",
+		"Meta",
+		"Oculus",
+		"Programming Frameworks",
+		"Coding youtubers",
+		"Database",
+		"Computer Science",
+		"The future",
+		"Terminator",
+		"Augmented Reality",
+		"Halo",
+		"Video Games",
+		"laMDA",
+		"Math",
+		"Crypto Currency",
+		"Travel",
+		"Music",
+		"iPhone",
+		"Open Source",
+		"Steam",
 	];
 
-	const randomIndex = Math.floor(Math.random() * statements.length);
-	console.log(statements[randomIndex]);
-	return statements[randomIndex];
+	const statements = [
+		"how Elon Musk created it",
+		"the current state of the world",
+		"how large your mother is",
+		"Tik Tok taking over the world",
+		"making it a NFT",
+		"Marc Zuckerberg being a robot",
+		"aliens",
+		"Canada",
+		"Alaska joining Canada",
+		"how much The Rock works out",
+		"going to mars",
+		"something trending on twitter",
+		"clean desk setups",
+		"Linus Tech Tips",
+		"how sentient you are",
+		"Will Smith",
+		"taking over the world",
+	];
+	const randomStatement = Math.floor(Math.random() * statements.length);
+	const randomTopic = Math.floor(Math.random() * topics.length);
+	console.log(topics[randomTopic], statements[randomStatement]);
+	return (
+		"Tweet something about " +
+		topics[randomTopic] +
+		" and add something about " +
+		statements[randomStatement]
+	);
 }
 
 module.exports = {
