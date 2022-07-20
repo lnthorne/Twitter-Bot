@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
-
 require("dotenv").config();
+
+const dataBase = mongoose.model(
+	"token",
+	new mongoose.Schema({
+		accessToken: String,
+		refreshToken: String,
+	})
+);
+
 const MONGO_URL = process.env.MONGO_URL;
 
 async function mongoConnect() {
@@ -18,3 +26,9 @@ mongoose.connection.once("open", () => {
 mongoose.connection.once("error", (err) => {
 	console.log("Mongoose connection error", err);
 });
+
+module.exports = {
+	mongoConnect,
+	mongoDisconnect,
+	tokens: dataBase,
+};

@@ -9,7 +9,6 @@ const config = new Configuration({
 const openAI = new OpenAIApi(config);
 
 async function openAiCreateTweet() {
-	console.log("openAI.createTweet worked");
 	try {
 		const tweet = await openAI.createCompletion({
 			model: "text-davinci-002",
