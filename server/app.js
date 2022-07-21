@@ -23,7 +23,7 @@ const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(callba
 
 app.use(cors({ origin: true }));
 
-// listening at the callback URL for the state and code generation
+// initial request
 app.get("/", (req, res) => {
 	res.redirect(url);
 });
