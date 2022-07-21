@@ -1,8 +1,9 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
-require("dotenv").config();
+const cron = require("node-cron");
 const { TwitterApi } = require("twitter-api-v2");
+require("dotenv").config();
 
 const { openAiCreateTweet } = require("./generate");
 
@@ -38,7 +39,9 @@ app.get("/ouath/redirect", async (req, res) => {
 
 	await dbRef.saveTokens(accessToken, refreshToken);
 
-	timedReq();
+	cron.schedule("* * 4 * * *", () => {
+		timedReq();
+	});
 });
 
 // Put an axios call in a function and have it make a get request to /refresh everyday;

@@ -16,8 +16,10 @@
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
 		"mongoose": "^6.4.2",
+		"node-cron": "^3.0.1",
 		"openai": "^3.0.0",
-		"twitter-api-v2": "^1.12.3"
+		"twitter-api-v2": "^1.12.3",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.16"
