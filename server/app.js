@@ -39,7 +39,7 @@ app.get("/ouath/redirect", async (req, res) => {
 
 	await dbRef.saveTokens(accessToken, refreshToken);
 
-	cron.schedule("* * 4 * * *", () => {
+	cron.schedule("* 1 * * * *", () => {
 		timedReq();
 	});
 });
@@ -69,4 +69,5 @@ async function timedReq() {
 		console.log(err);
 	}
 }
+// TODO:
 module.exports = app;
